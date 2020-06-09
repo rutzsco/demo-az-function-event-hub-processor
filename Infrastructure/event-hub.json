@@ -94,19 +94,6 @@ Licensed under the MIT license. See LICENSE file in the project root for full li
                 "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_name'))]",
                 "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespaces_name'), parameters('eventhubs_name'))]"
             ]
-        },
-        {
-            "type": "Microsoft.EventHub/namespaces/eventhubs/consumergroups",
-            "name": "[concat(parameters('namespaces_name'), '/', parameters('eventhubs_name'), '/', 'router-service-bus')]",
-            "apiVersion": "2017-04-01",
-            "location": "[parameters('location')]",
-            "scale": null,
-            "properties": {
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_name'))]",
-                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespaces_name'), parameters('eventhubs_name'))]"
-            ]
         }
     ],
     "outputs": {
