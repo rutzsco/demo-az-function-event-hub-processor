@@ -12,7 +12,7 @@ namespace Demo.EventProcessor
     public static class EventProcessorActivity
     {
         [FunctionName("EventProcessorActivity")]
-        public static async Task Run([EventHubTrigger("ingest-001", Connection = "EventHubConnectionString")] EventData[] events, ILogger log)
+        public static async Task Run([EventHubTrigger("ingest-001", Connection = "IngestEventHubConnectionString")] EventData[] events, ILogger log)
         {
             var exceptions = new List<Exception>();
 
@@ -21,9 +21,6 @@ namespace Demo.EventProcessor
                 try
                 {
                     string messageBody = Encoding.UTF8.GetString(eventData.Body.Array, eventData.Body.Offset, eventData.Body.Count);
-
-                    // Replace these two lines with your processing logic.
-                    log.LogInformation($"C# Event Hub trigger function processed a message: {messageBody}");
                     await Task.Yield();
                 }
                 catch (Exception e)
