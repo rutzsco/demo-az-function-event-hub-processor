@@ -16,6 +16,7 @@ namespace Demo.EventProcessor
         {
             var exceptions = new List<Exception>();
 
+            log.LogMetric("EventProcessorActivityBatchSize", events.Count(), new Dictionary<string, object> { { "RunId", Guid.NewGuid()} });
             foreach (EventData eventData in events)
             {
                 try
