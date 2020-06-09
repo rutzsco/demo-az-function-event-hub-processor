@@ -3,7 +3,7 @@ Copyright (c) Microsoft. All rights reserved.
 Licensed under the MIT license. See LICENSE file in the project root for full license information.
 */
 {
-    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
         "AuthorizationRules_RootManageSharedAccessKey_name": {
@@ -75,7 +75,7 @@ Licensed under the MIT license. See LICENSE file in the project root for full li
             "scale": null,
             "properties": {
                 "messageRetentionInDays": 1,
-                "partitionCount": 2,
+                "partitionCount": 1,
                 "status": "Active"
             },
             "dependsOn": [
