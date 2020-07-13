@@ -14,11 +14,9 @@ namespace Demo.EventProcessor
     {
         [FunctionName("SendEventHubMessageEndpoint")]
         public static async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req, 
-            [EventHub("output-001", Connection = "OutputEventHubConnectionString")] IAsyncCollector<string> outputEvents, ILogger log)
+            [EventHub("ingest-001", Connection = "IngestEventHubConnectionString")] IAsyncCollector<string> outputEvents, ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
-
-
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             await outputEvents.AddAsync(requestBody);
             return new OkObjectResult("OK");
