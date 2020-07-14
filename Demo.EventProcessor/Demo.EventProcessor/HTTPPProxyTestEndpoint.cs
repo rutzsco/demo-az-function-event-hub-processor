@@ -17,7 +17,7 @@ namespace Demo.EventProcessor
         private static readonly HttpClient _httpClient = new HttpClient();
 
         [FunctionName("HTTPPProxyTestEndpoint")]
-        public static async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] ExecutionContext context, ILogger log)
+        public static async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req, ExecutionContext context, ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
             var config = new ConfigurationBuilder()
