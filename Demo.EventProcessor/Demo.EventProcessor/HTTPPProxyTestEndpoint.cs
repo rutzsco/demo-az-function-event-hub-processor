@@ -26,7 +26,7 @@ namespace Demo.EventProcessor
                                 .AddEnvironmentVariables()
                                 .Build();
 
-            var backendServiceUrl = config["MeasurementServiceUrl"];
+            var backendServiceUrl = config["BackendServiceUrl"];
             var response = await _httpClient.GetAsync(backendServiceUrl);
             if (!response.IsSuccessStatusCode)
             {
