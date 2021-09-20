@@ -3,7 +3,7 @@ trigger: none
 resources:
   pipelines:
   - pipeline: build
-    source: ''
+    source: 'function-event-hub-processor - BUILD'
   
 variables:
   vmImageName: 'vs2017-win2016'
@@ -35,7 +35,7 @@ stages:
                 location: '$(region)'
                 csmFile: '$(Pipeline.Workspace)/build/Infrastructure/event-hub.json'
                 overrideParameters: '-namespaces_name "rutzsco-demo-ingest-nsp-ci" -eventhubs_name "ingest-001"'
-                 deploymentOutputs: ResourceGroupDeploymentOutputs
+                deploymentOutputs: ResourceGroupDeploymentOutputs
 
             - powershell: |
                 $outputs = ConvertFrom-Json $($env:ResourceGroupDeploymentOutputs)
