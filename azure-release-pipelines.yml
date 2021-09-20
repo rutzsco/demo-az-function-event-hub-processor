@@ -1,0 +1,68 @@
+trigger: none
+
+resources:
+  pipelines:
+  - pipeline: build
+    source: ''
+  
+variables:
+  vmImageName: 'vs2017-win2016'
+  azureSubscription: 'RUTZSCO'
+  region: 'East US'
+  app-name: 'demo-event-processor'
+  storageAccountName: 'azfuncepci'
+  resourceGroupName: 'demo-event-processor'  
+stages:
+ - stage: CI
+   displayName: CI stage 
+  
+   jobs:
+   - deployment: Deploy
+     displayName: Deploy
+     environment: 'CI'
+     pool:
+        vmImage: $(vmImageName)   
+      
+     strategy:
+        runOnce:
+          deploy:
+  
+            steps:
+           
+            - task: AzureResourceGroupDeployment@2
+              displayName: '1. Create Function Infrastructure'
+              inputs:
+                azureSubscription: '$(azureSubscription)'
+                resourceGroupName: '$(resourceGroupName)'
+                location: '$(region)'
+                csmFile: '$(Pipeline.Workspace)/build/Infrastructure/function-app-consumption.json'
+                overrideParameters: '-appName $(app-name) -storageAccountName $(storageAccountName)'
+                deploymentOutputs: ResourceGroupDeploymentOutputs
+
+            - powershell: |
+                $outputs = ConvertFrom-Json $($env:ResourceGroupDeploymentOutputs)
+   
+                foreach ($output in $outputs.PSObject.Properties) {
+                    Write-Host "##vso[task.setvariable variable=RGDO_$($output.Name)]$($output.Value.value)"
+                }
+   
+              displayName: 'Ingest Event Hub - Outputs copy'
+
+            - task: AzureResourceGroupDeployment@2
+              displayName: '1. Create Function Infrastructure'
+              inputs:
+                azureSubscription: '$(azureSubscription)'
+                resourceGroupName: '$(resourceGroupName)'
+                location: '$(region)'
+                csmFile: '$(Pipeline.Workspace)/build/Infrastructure/function-app-consumption.json'
+                overrideParameters: '-appName $(app-name) -storageAccountName $(storageAccountName)'
+                deploymentOutputs: ResourceGroupDeploymentOutputs
+ 
+            - task: AzureFunctionApp@1
+              displayName: '2. Azure functions app deploy'
+              inputs:
+                azureSubscription: '$(azureSubscription)'
+                appType: functionApp
+                appName: $(app-name)
+                package: '$(Pipeline.Workspace)/build/App/Demo.EventProcessor.zip'
+                AppSettings: ''
