@@ -53,7 +53,7 @@ stages:
                 resourceGroupName: '$(resourceGroupName)'
                 location: '$(region)'
                 csmFile: '$(Pipeline.Workspace)/build/Infrastructure/function-app-consumption.json'
-                overrideParameters: '-appName demo-event-processor -storageAccountName azfuncepci'
+                overrideParameters: '-appName rutzsco-demo-event-processor -storageAccountName azfuncepci1'
                 deploymentOutputs: ResourceGroupDeploymentOutputs
  
             - task: AzureFunctionApp@1
@@ -61,6 +61,6 @@ stages:
               inputs:
                 azureSubscription: '$(azureSubscription)'
                 appType: functionApp
-                appName: $(app-name)
+                appName: rutzsco-demo-event-processor
                 package: '$(Pipeline.Workspace)/build/App/Demo.EventProcessor.zip'
-                AppSettings: '-TBD TBD'
+                AppSettings: '-IngestEventHubConnectionString RGDO_NamespaceDefaultConnectionString'
