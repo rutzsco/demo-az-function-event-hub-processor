@@ -7,10 +7,8 @@ resources:
   
 variables:
   vmImageName: 'vs2017-win2016'
-  azureSubscription: 'RUTZSCO'
+  azureSubscription: 'Demo Account'
   region: 'East US'
-  app-name: 'demo-event-processor'
-  storageAccountName: 'azfuncepci'
   resourceGroupName: 'demo-event-processor'  
 stages:
  - stage: CI
@@ -28,16 +26,16 @@ stages:
           deploy:
   
             steps:
-           
-            - task: AzureResourceGroupDeployment@2
-              displayName: '1. Create Function Infrastructure'
+                       
+            - task: AzureResourceManagerTemplateDeployment@3
+              displayName: 'Ingest Event Hub - Deploy'
               inputs:
-                azureSubscription: '$(azureSubscription)'
+                azureResourceManagerConnection: '$(azureSubscription)'
                 resourceGroupName: '$(resourceGroupName)'
                 location: '$(region)'
-                csmFile: '$(Pipeline.Workspace)/build/Infrastructure/function-app-consumption.json'
-                overrideParameters: '-appName $(app-name) -storageAccountName $(storageAccountName)'
-                deploymentOutputs: ResourceGroupDeploymentOutputs
+                csmFile: '$(Pipeline.Workspace)/build/Infrastructure/event-hub.json'
+                overrideParameters: '-namespaces_name "rutzsco-demo-ingest-nsp-ci" -eventhubs_name "ingest-001"'
+                 deploymentOutputs: ResourceGroupDeploymentOutputs
 
             - powershell: |
                 $outputs = ConvertFrom-Json $($env:ResourceGroupDeploymentOutputs)
@@ -49,20 +47,20 @@ stages:
               displayName: 'Ingest Event Hub - Outputs copy'
 
             - task: AzureResourceGroupDeployment@2
-              displayName: '1. Create Function Infrastructure'
+              displayName: '3. Create Function Infrastructure'
               inputs:
                 azureSubscription: '$(azureSubscription)'
                 resourceGroupName: '$(resourceGroupName)'
                 location: '$(region)'
                 csmFile: '$(Pipeline.Workspace)/build/Infrastructure/function-app-consumption.json'
-                overrideParameters: '-appName $(app-name) -storageAccountName $(storageAccountName)'
+                overrideParameters: '-appName demo-event-processor -storageAccountName azfuncepci'
                 deploymentOutputs: ResourceGroupDeploymentOutputs
  
             - task: AzureFunctionApp@1
-              displayName: '2. Azure functions app deploy'
+              displayName: '4. Azure functions app deploy'
               inputs:
                 azureSubscription: '$(azureSubscription)'
                 appType: functionApp
                 appName: $(app-name)
                 package: '$(Pipeline.Workspace)/build/App/Demo.EventProcessor.zip'
-                AppSettings: ''
+                AppSettings: '-TBD TBD'
