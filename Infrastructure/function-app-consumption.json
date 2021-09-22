@@ -66,7 +66,8 @@
     "storageAccountid": "[concat(resourceGroup().id,'/providers/','Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
     "functionAppid": "[concat(resourceGroup().id,'/providers/','Microsoft.Web/sites/', variables('functionAppName'))]",
     "functionWorkerRuntime": "[parameters('runtime')]",
-    "identity_resource_id": "[concat(resourceId('Microsoft.Web/sites', parameters('appName')), '/providers/Microsoft.ManagedIdentity/Identities/default')]"
+    "identity_resource_id": "[concat(resourceId('Microsoft.Web/sites', parameters('appName')), '/providers/Microsoft.ManagedIdentity/Identities/default')]",
+    "uniqueResourceNameBase": "[uniqueString(resourceGroup().id, parameters('location'), deployment().name)]"
   },
   "resources": [
     {
@@ -172,7 +173,7 @@
     },
     "miObjectId": {
       "type": "string",
-      "value": "[reference(variables('identity_resource_id'), '2015-08-31-PREVIEW').principalId]"
+      "value": "[reference(resourceId('Microsoft.Web/sites', variables('functionAppName')),'2019-08-01', 'full').identity.principalId]"
     }
   }
 }
