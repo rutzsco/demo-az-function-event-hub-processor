@@ -9,7 +9,8 @@ variables:
   vmImageName: 'vs2017-win2016'
   azureSubscription: 'Demo Account'
   region: 'East US'
-  resourceGroupName: 'demo-event-processor'  
+  resourceGroupName: 'rutzsco-demo-event-processor'
+  functionAppName: 'rutzsco-demo-event-processor'  
 stages:
  - stage: CI
    displayName: CI stage 
@@ -46,14 +47,14 @@ stages:
    
               displayName: 'Ingest Event Hub - Outputs copy'
 
-            - task: AzureResourceGroupDeployment@2
+            - task: AzureResourceGroupDeployment@3
               displayName: '3. Create Function Infrastructure'
               inputs:
-                azureSubscription: '$(azureSubscription)'
+                azureResourceManagerConnection: '$(azureSubscription)'
                 resourceGroupName: '$(resourceGroupName)'
                 location: '$(region)'
                 csmFile: '$(Pipeline.Workspace)/build/Infrastructure/function-app-consumption.json'
-                overrideParameters: '-appName rutzsco-demo-event-processor -storageAccountName azfuncepci1'
+                overrideParameters: '-appName $(functionAppName) -storageAccountName azfuncepci1'
                 deploymentOutputs: ResourceGroupDeploymentOutputs
  
             - task: AzureFunctionApp@1
@@ -61,6 +62,6 @@ stages:
               inputs:
                 azureSubscription: '$(azureSubscription)'
                 appType: functionApp
-                appName: rutzsco-demo-event-processor
+                appName: $(functionAppName)
                 package: '$(Pipeline.Workspace)/build/App/Demo.EventProcessor.zip'
                 AppSettings: '-IngestEventHubConnectionString RGDO_NamespaceDefaultConnectionString'
