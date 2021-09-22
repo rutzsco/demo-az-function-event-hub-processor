@@ -64,7 +64,7 @@ stages:
                 appType: functionApp
                 appName: $(functionAppName)
                 package: '$(Pipeline.Workspace)/build/App/Demo.EventProcessor.zip'
-                AppSettings: '-IngestEventHubConnectionString RGDO_NamespaceDefaultConnectionString'
+                AppSettings: '-IngestEventHubConnectionString $(RGDO_NamespaceDefaultConnectionString)'
 
             - task: AzureResourceGroupDeployment@3
               displayName: '5. Create Sender Function Infrastructure'
@@ -83,4 +83,4 @@ stages:
                 appType: functionApp
                 appName: rutzsco-demo-event-sender
                 package: '$(Pipeline.Workspace)/build/App/Demo.EventSender.zip'
-                AppSettings: '-IngestEventHubConnectionString RGDO_NamespaceDefaultConnectionString'
+                AppSettings: '-IngestEventHubConnectionString $(RGDO_NamespaceDefaultConnectionString)'
