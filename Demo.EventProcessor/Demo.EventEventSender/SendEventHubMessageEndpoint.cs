@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-namespace Demo.EventProcessor
+namespace Demo.EventEventSender
 {
     public static class SendEventHubMessageEndpoint
     {
