@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.EventHubs;
 using Microsoft.Azure.WebJobs;
@@ -21,8 +22,9 @@ namespace Demo.EventProcessor
             foreach (EventData eventData in events)
             {
                 var messageBody = Encoding.UTF8.GetString(eventData.Body.Array, eventData.Body.Offset, eventData.Body.Count);
-                //var telemetryModel = JsonSerializer.Deserialize<TelemetryModel>(messageBody);
+                var telemetryModel = JsonSerializer.Deserialize<TelemetryModel>(messageBody);
                 LogDiagnostics(eventData, messageBody, log);
+                Thread.Sleep(telemetryModel.DelayMS);
             }
         }
 
@@ -33,7 +35,9 @@ namespace Demo.EventProcessor
             foreach (EventData eventData in events)
             {
                 var messageBody = Encoding.UTF8.GetString(eventData.Body.Array, eventData.Body.Offset, eventData.Body.Count);
+                var telemetryModel = JsonSerializer.Deserialize<TelemetryModel>(messageBody);
                 LogDiagnostics(eventData, messageBody, log);
+                Thread.Sleep(telemetryModel.DelayMS);
             }
         }
 
