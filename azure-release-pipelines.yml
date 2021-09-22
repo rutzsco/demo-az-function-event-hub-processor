@@ -65,3 +65,22 @@ stages:
                 appName: $(functionAppName)
                 package: '$(Pipeline.Workspace)/build/App/Demo.EventProcessor.zip'
                 AppSettings: '-IngestEventHubConnectionString RGDO_NamespaceDefaultConnectionString'
+
+            - task: AzureResourceGroupDeployment@3
+              displayName: '4. Create Sender Function Infrastructure'
+              inputs:
+                azureResourceManagerConnection: '$(azureSubscription)'
+                resourceGroupName: '$(resourceGroupName)'
+                location: '$(region)'
+                csmFile: '$(Pipeline.Workspace)/build/Infrastructure/function-app-consumption.json'
+                overrideParameters: '-appName $(functionAppName) -storageAccountName azfuncepci1'
+                deploymentOutputs: ResourceGroupDeploymentOutputs
+ 
+            - task: AzureFunctionApp@1
+              displayName: '5. Azure Sender functions app deploy'
+              inputs:
+                azureSubscription: '$(azureSubscription)'
+                appType: functionApp
+                appName: $(functionAppName)
+                package: '$(Pipeline.Workspace)/build/App/Demo.EventSender.zip'
+                AppSettings: '-IngestEventHubConnectionString RGDO_NamespaceDefaultConnectionString'
