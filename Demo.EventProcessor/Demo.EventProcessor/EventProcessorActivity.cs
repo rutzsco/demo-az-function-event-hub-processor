@@ -21,9 +21,31 @@ namespace Demo.EventProcessor
             foreach (EventData eventData in events)
             {
                 var messageBody = Encoding.UTF8.GetString(eventData.Body.Array, eventData.Body.Offset, eventData.Body.Count);
-                var telemetryModel = JsonSerializer.Deserialize<TelemetryModel>(messageBody);
-                log.LogDebug("Event Data", eventData);
+                //var telemetryModel = JsonSerializer.Deserialize<TelemetryModel>(messageBody);
+                LogDiagnostics(eventData, messageBody, log);
             }
+        }
+
+        private static void LogDiagnostics(EventData eventData, string messageBodyString, ILogger log)
+        {
+            var sb = new StringBuilder();
+            foreach (var properties in eventData.Properties)
+            {
+                sb.Append(properties.Key);
+                sb.Append('=');
+                sb.Append(properties.Value);
+                sb.Append('|');
+            }
+            sb.Append("SystemProperties|");
+            foreach (var properties in eventData.SystemProperties)
+            {
+                sb.Append(properties.Key);
+                sb.Append('=');
+                sb.Append(properties.Value);
+                sb.Append('|');
+            }
+            log.LogInformation($"EventHubIngestionProcessor MessagePayload:  {messageBodyString}");
+            log.LogInformation($"EventHubIngestionProcessor MessageProperties:  {sb}");
         }
     }
 }
