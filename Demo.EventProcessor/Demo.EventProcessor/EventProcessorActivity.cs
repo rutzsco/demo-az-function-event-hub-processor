@@ -43,7 +43,7 @@ namespace Demo.EventProcessor
 
         private static void LogDiagnostics(EventData eventData, string messageBodyString, ILogger log)
         {
-            var sb = new StringBuilder();
+            var sb = new StringBuilder();    
             foreach (var properties in eventData.Properties)
             {
                 sb.Append(properties.Key);
@@ -52,6 +52,8 @@ namespace Demo.EventProcessor
                 sb.Append('|');
             }
             sb.Append("SystemProperties|");
+            sb.Append("PartitionKey=");
+            sb.Append(eventData.SystemProperties.PartitionKey);
             foreach (var properties in eventData.SystemProperties)
             {
                 sb.Append(properties.Key);
