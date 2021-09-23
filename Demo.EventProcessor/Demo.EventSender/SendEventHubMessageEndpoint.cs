@@ -12,21 +12,23 @@ namespace Demo.EventEventSender
 {
     public static class SendEventHubMessageEndpoint
     {
-        [FunctionName("SendEventHubMessageEndpoint")]
-        public static async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "{hub}")] HttpRequest req,  string hub,
-            [EventHub("ingest-001", Connection = "IngestEventHubConnectionString")] IAsyncCollector<string> outputEvents001,
-            [EventHub("ingest-002", Connection = "IngestEventHubConnectionString")] IAsyncCollector<string> outputEvents002, ILogger log)
+        [FunctionName("SendEventHubMessageEndpoint001")]
+        public static async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req,
+            [EventHub("ingest-001", Connection = "IngestEventHubConnectionString")] IAsyncCollector<string> outputEvents001, ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+            await outputEvents001.AddAsync(requestBody);
+            return new OkObjectResult("OK");
+        }
 
-            if (hub == "002")
-            {
-                await outputEvents002.AddAsync(requestBody);
-            }
-            else
-                await outputEvents001.AddAsync(requestBody);
-
+        [FunctionName("SendEventHubMessageEndpoint002")]
+        public static async Task<IActionResult> Run002([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req,
+           [EventHub("ingest-002", Connection = "IngestEventHubConnectionString")] IAsyncCollector<string> outputEvents002, ILogger log)
+        {
+            log.LogInformation("C# HTTP trigger function processed a request.");
+            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+            await outputEvents002.AddAsync(requestBody);
             return new OkObjectResult("OK");
         }
     }
