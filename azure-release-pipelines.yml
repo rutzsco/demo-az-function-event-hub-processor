@@ -64,7 +64,7 @@ stages:
                 appType: functionApp
                 appName: $(functionAppName)
                 package: '$(Pipeline.Workspace)/build/App/Demo.EventProcessor.zip'
-                AppSettings: '-IngestEventHubConnectionString $(RGDO_NamespaceDefaultConnectionString)'
+                AppSettings: '-IngestEventHubConnectionString $(RGDO_NamespaceDefaultConnectionString) -SCALE_CONTROLLER_LOGGING_ENABLED AppInsights:Verbose'
 
             - task: AzureResourceGroupDeployment@3
               displayName: '5. Create Sender Function Infrastructure'

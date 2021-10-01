@@ -36,6 +36,8 @@ namespace Demo.EventEventSender
 
     public class TelemetryModel
     {
+        public int DelayMS { get; set; }
+
         public IEnumerable<Tag> Data { get; set; }
     }
 
