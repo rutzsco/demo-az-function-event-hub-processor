@@ -36,24 +36,24 @@ namespace Demo.EventEventSender
 
         [FunctionName("SendEventHubMessageScenarioEndpoint")]
         public static async Task<IActionResult> RunWithParamaters([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req,
-            [EventHub("ingest-002", Connection = "IngestEventHubConnectionString")] IAsyncCollector<string> outputEvents002, ILogger log)
+            [EventHub("ingest-002", Connection = "IngestEventHubConnectionString")] IAsyncCollector<TelemetryModel> outputEvents002, ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
 
             var requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            var scenario = JsonConvert.DeserializeObject<Scenario>(requestBody);
+            var command = JsonConvert.DeserializeObject<RunScenarioCommand>(requestBody);
 
             Stopwatch durationSW = new Stopwatch();
             durationSW.Start();
-            while (durationSW.Elapsed < TimeSpan.FromSeconds(scenario.DurationSeconds))
+            while (durationSW.Elapsed < TimeSpan.FromSeconds(command.Scenario.DurationSeconds))
             {
                 Stopwatch rateSW = new Stopwatch();
                 rateSW.Start();
                 while (durationSW.Elapsed < TimeSpan.FromSeconds(1))
                 {
-                    for (int x = 0; x < scenario.RatePerSeconds; x++)
+                    for (int x = 0; x < command.Scenario.RatePerSeconds; x++)
                     {
-                        await outputEvents002.AddAsync(requestBody);
+                        await outputEvents002.AddAsync(command.EventModel);
                     }          
                 }
                 rateSW.Stop();
