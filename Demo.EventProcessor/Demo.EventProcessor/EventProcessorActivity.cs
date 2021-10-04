@@ -17,38 +17,38 @@ namespace Demo.EventProcessor
         private static List<string> ignoreTags = new List<string>() { "Tag5", "Tag6" };
 
         [FunctionName("EventProcessorActivity")]
-        public static async Task Run([EventHubTrigger("ingest-001", Connection = "IngestEventHubConnectionString")] EventData[] events, ILogger log, PartitionContext context)
+        public static async Task Run([EventHubTrigger("ingest-001", Connection = "IngestEventHubConnectionString")] EventData[] events, ILogger log, PartitionContext partitionContext)
         {
-            log.LogMetric("EventProcessorActivityBatchSize", events.Count(), new Dictionary<string, object> { { "PartitionId", context.PartitionId } });
+            log.LogMetric("EventProcessorActivityBatchSize", events.Count(), new Dictionary<string, object> { { "PartitionId", partitionContext.PartitionId } });
             foreach (EventData eventData in events)
             {
                 var messageBody = Encoding.UTF8.GetString(eventData.Body.Array, eventData.Body.Offset, eventData.Body.Count);
                 var telemetryModel = JsonSerializer.Deserialize<TelemetryModel>(messageBody);
-                LogDiagnostics(eventData, messageBody, log, context);
+                LogDiagnostics(eventData, messageBody, log, partitionContext);
                 Thread.Sleep(telemetryModel.DelayMS);
             }
         }
 
         [FunctionName("EventProcessorActivity002")]
-        public static async Task Run2([EventHubTrigger("ingest-002", Connection = "IngestEventHubConnectionString")] EventData[] events, ILogger log, PartitionContext context)
+        public static async Task Run2([EventHubTrigger("ingest-002", Connection = "IngestEventHubConnectionString")] EventData[] events, ILogger log, PartitionContext partitionContext)
         {
             log.LogMetric("EventProcessorActivityBatchSize", events.Count(), new Dictionary<string, object> { { "RunId", Guid.NewGuid() } });
             foreach (EventData eventData in events)
             {
                 var messageBody = Encoding.UTF8.GetString(eventData.Body.Array, eventData.Body.Offset, eventData.Body.Count);
                 var telemetryModel = JsonSerializer.Deserialize<TelemetryModel>(messageBody);
-                LogDiagnostics(eventData, messageBody, log, context);
+                LogDiagnostics(eventData, messageBody, log, partitionContext);
                 Thread.Sleep(telemetryModel.DelayMS);
             }
         }
 
  
-        private static void LogDiagnostics(EventData eventData, string messageBodyString, ILogger log, PartitionContext context)
+        private static void LogDiagnostics(EventData eventData, string messageBodyString, ILogger log, PartitionContext partitionContext)
         {
             var messageSequence = eventData.SystemProperties.SequenceNumber;
-            var lastEnqueuedSequence = context.RuntimeInformation.LastSequenceNumber;
+            var lastEnqueuedSequence = partitionContext.RuntimeInformation.LastSequenceNumber;
             var sequenceDifference = lastEnqueuedSequence - messageSequence;
-            log.LogMetric("EventProcessorActivityPartitionSequenceLag", sequenceDifference, new Dictionary<string, object> { { "PartitionId", context.PartitionId } });
+            log.LogMetric("EventProcessorActivityPartitionSequenceLag", sequenceDifference, new Dictionary<string, object> { { "PartitionId", partitionContext.PartitionId } });
 
             var sb = new StringBuilder();    
             foreach (var properties in eventData.Properties)
