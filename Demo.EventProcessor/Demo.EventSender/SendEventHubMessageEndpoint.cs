@@ -49,7 +49,7 @@ namespace Demo.EventEventSender
             {
                 Stopwatch rateSW = new Stopwatch();
                 rateSW.Start();
-                while (durationSW.Elapsed < TimeSpan.FromSeconds(1))
+                while (rateSW.Elapsed < TimeSpan.FromSeconds(1))
                 {
                     for (int x = 0; x < command.Scenario.RatePerSeconds; x++)
                     {
