@@ -13,7 +13,8 @@
       "batchCheckpointFrequency": 1,
       "eventProcessorOptions": {
         "maxBatchSize": 10,
-        "prefetchCount": 300
+        "prefetchCount": 300,
+        "enableReceiverRuntimeMetric": true
       }
     }
   }
