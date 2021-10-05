@@ -1,5 +1,7 @@
 # demo-az-function-event-hub-processor
 
+# Refernce
+
 - https://docs.microsoft.com/en-us/azure/azure-functions/functions-idempotent
 - https://docs.microsoft.com/en-us/azure/azure-functions/functions-reliable-event-processing
 - https://docs.microsoft.com/en-us/azure/architecture/reference-architectures/event-hubs/partitioning-in-event-hubs-and-kafka
