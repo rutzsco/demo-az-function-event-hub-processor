@@ -18,7 +18,7 @@ namespace Demo.EventProcessor
         private static List<string> ignoreTags = new List<string>() { "Tag5", "Tag6" };
 
         [FunctionName("EventProcessorActivity")]
-        public static async Task Run([EventHubTrigger("ingest-001", Connection = "IngestEventHubConnectionString")] EventData[] events, [DurableClient] IDurableClient context, ILogger log, PartitionContext partitionContext, ICollector<string> failureQueue)
+        public static async Task Run([EventHubTrigger("ingest-001", Connection = "IngestEventHubConnectionString")] EventData[] events, [DurableClient] IDurableClient context, ILogger log, PartitionContext partitionContext, [Queue("retry-events"), StorageAccount("AzureStorageFailureQueueConnection")] ICollector<string> failureQueue)
         {
             log.LogMetric("EventProcessorActivityBatchSize", events.Count(), new Dictionary<string, object> { { "PartitionId", partitionContext.PartitionId } });
             foreach (EventData eventData in events)

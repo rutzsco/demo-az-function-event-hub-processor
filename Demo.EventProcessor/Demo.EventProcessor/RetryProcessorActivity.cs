@@ -10,7 +10,7 @@ namespace Demo.EventProcessor
     public static class RetryProcessorActivity
     {
         [FunctionName("RetryProcessorActivity")]
-        public static void Run([QueueTrigger("retry-events", Connection = "fdsgdsfgfdsg")]string myQueueItem, ILogger log)
+        public static void Run([QueueTrigger("retry-events", Connection = "AzureStorageFailureQueueConnection")]string myQueueItem, ILogger log)
         {
             log.LogInformation($"C# Queue trigger function processed: {myQueueItem}");
 
