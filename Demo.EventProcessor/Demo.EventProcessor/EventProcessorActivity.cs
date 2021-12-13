@@ -18,7 +18,7 @@ namespace Demo.EventProcessor
         private static List<string> ignoreTags = new List<string>() { "Tag5", "Tag6" };
 
         [FunctionName("EventProcessorActivity")]
-        public static async Task Run([EventHubTrigger("ingest-001", Connection = "IngestEventHubConnectionString")] EventData[] events, [DurableClient] IDurableClient context, ILogger log, PartitionContext partitionContext)
+        public static async Task Run([EventHubTrigger("ingest-001", Connection = "IngestEventHubConnectionString")] EventData[] events, [DurableClient] IDurableClient context, ILogger log, PartitionContext partitionContext, ICollector<string> failureQueue)
         {
             log.LogMetric("EventProcessorActivityBatchSize", events.Count(), new Dictionary<string, object> { { "PartitionId", partitionContext.PartitionId } });
             foreach (EventData eventData in events)
@@ -35,6 +35,9 @@ namespace Demo.EventProcessor
                 {
                     var entityId = new EntityId("FailureTracker", "001");
                     await context.SignalEntityAsync(entityId, "TrackFailure");
+
+                    // Add to failure queue
+                    failureQueue.Add(Encoding.UTF8.GetString(eventData.Body.Array, eventData.Body.Offset, eventData.Body.Count));
                 }
             }
         }

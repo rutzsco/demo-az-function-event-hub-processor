@@ -24,11 +24,10 @@ namespace Demo.EventProcessor
             {
                 this.Value += 1;
 
-                if (Value >= 3)
+                // TODO: Implmentend number of errors per sliding window of time
+                if (Value >= 100)
                 {
-
-                    // TODO: Logic to stop funciton.
-                    //Entity.Current.StartNewOrchestration("StopEventProcessingActivity", Entity.Current.EntityId);
+                    Entity.Current.StartNewOrchestration("StopEventProcessingActivity", Entity.Current.EntityId);
                 }
             }
 
