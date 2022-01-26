@@ -1,5 +1,7 @@
 # demo-az-function-event-hub-processor
 
+V1
+
 # Refernce
 
 - https://docs.microsoft.com/en-us/azure/azure-functions/functions-idempotent
