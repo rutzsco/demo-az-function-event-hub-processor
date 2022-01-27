@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Demo.EventSender.Model;
 using System.Diagnostics;
+using System.Threading;
 
 namespace Demo.EventEventSender
 {
@@ -30,13 +31,15 @@ namespace Demo.EventEventSender
             {
                 Stopwatch rateSW = new Stopwatch();
                 rateSW.Start();
+                for (int x = 0; x < command.Scenario.RatePerSeconds; x++)
+                {
+                    messageCount++;
+                    await outputEvents002.AddAsync(command.EventModel);
+                }
+
                 while (rateSW.Elapsed < TimeSpan.FromSeconds(1))
                 {
-                    for (int x = 0; x < command.Scenario.RatePerSeconds; x++)
-                    {
-                        messageCount++;
-                        await outputEvents002.AddAsync(command.EventModel);
-                    }          
+                    Thread.Sleep(10);
                 }
                 rateSW.Stop();
                 rateSW.Reset();
