@@ -23,52 +23,12 @@ namespace Demo.EventProcessor
             log.LogMetric("EventProcessorActivityBatchSize", events.Count(), new Dictionary<string, object> { { "PartitionId", partitionContext.PartitionId } });
             foreach (EventData eventData in events)
             {
-                try
-                {
-                    var messageBody = Encoding.UTF8.GetString(eventData.Body.Array, eventData.Body.Offset, eventData.Body.Count);
-                    var telemetryModel = JsonSerializer.Deserialize<TelemetryModel>(messageBody);
-                    LogDiagnostics(eventData, messageBody, log, partitionContext);
+                var messageBody = Encoding.UTF8.GetString(eventData.Body.Array, eventData.Body.Offset, eventData.Body.Count);
+                var telemetryModel = JsonSerializer.Deserialize<TelemetryModel>(messageBody);
+                Diagnostics.Log(eventData, messageBody, log, partitionContext);
 
-                    Logic.Execute(telemetryModel);
-                }
-                catch
-                {
-                    var entityId = new EntityId("FailureTracker", "001");
-                    await context.SignalEntityAsync(entityId, "TrackFailure");
-
-                    // Add to failure queue
-                    failureQueue.Add(Encoding.UTF8.GetString(eventData.Body.Array, eventData.Body.Offset, eventData.Body.Count));
-                }
+                Logic.Execute(telemetryModel);
             }
-        }
-
-        private static void LogDiagnostics(EventData eventData, string messageBodyString, ILogger log, PartitionContext partitionContext)
-        {
-            var messageSequence = eventData.SystemProperties.SequenceNumber;
-            var lastEnqueuedSequence = partitionContext.RuntimeInformation.LastSequenceNumber;
-            var sequenceDifference = lastEnqueuedSequence - messageSequence;
-            log.LogMetric("EventProcessorActivityPartitionSequenceLag", sequenceDifference, new Dictionary<string, object> { { "PartitionId", partitionContext.PartitionId } });
-
-            var sb = new StringBuilder();    
-            foreach (var properties in eventData.Properties)
-            {
-                sb.Append(properties.Key);
-                sb.Append('=');
-                sb.Append(properties.Value);
-                sb.Append('|');
-            }
-            sb.Append("SystemProperties|");
-            sb.Append("PartitionKey=");
-            sb.Append(eventData.SystemProperties.PartitionKey);
-            foreach (var properties in eventData.SystemProperties)
-            {
-                sb.Append(properties.Key);
-                sb.Append('=');
-                sb.Append(properties.Value);
-                sb.Append('|');
-            }
-            log.LogDebug($"EventHubIngestionProcessor MessagePayload:  {messageBodyString}");
-            log.LogDebug($"EventHubIngestionProcessor MessageProperties:  {sb}");
         }
     }
 }
