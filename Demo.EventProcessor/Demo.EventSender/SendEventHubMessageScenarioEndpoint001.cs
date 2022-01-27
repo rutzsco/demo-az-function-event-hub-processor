@@ -23,6 +23,7 @@ namespace Demo.EventEventSender
             var requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             var command = JsonConvert.DeserializeObject<RunScenarioCommand>(requestBody);
 
+            int messageCount = 0;
             Stopwatch durationSW = new Stopwatch();
             durationSW.Start();
             while (durationSW.Elapsed < TimeSpan.FromSeconds(command.Scenario.DurationSeconds))
@@ -33,6 +34,7 @@ namespace Demo.EventEventSender
                 {
                     for (int x = 0; x < command.Scenario.RatePerSeconds; x++)
                     {
+                        messageCount++;
                         await outputEvents002.AddAsync(command.EventModel);
                     }          
                 }
@@ -40,8 +42,7 @@ namespace Demo.EventEventSender
                 rateSW.Reset();
             }
             durationSW.Stop();
-
-            return new OkObjectResult("OK");
+            return new OkObjectResult($"Events sent: {messageCount}");
         }
     }
 }

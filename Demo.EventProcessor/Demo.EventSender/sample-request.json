@@ -1,0 +1,15 @@
+{
+    "EventModel": {
+        "data":[
+        {
+          "name":"Tag1",
+          "value":"Value1 "
+          }  ],
+        "DelayMS": 10
+     },
+     "Scenario":
+     {
+         "DurationSeconds": 10, 
+         "RatePerSeconds": 5000
+     }
+ }
