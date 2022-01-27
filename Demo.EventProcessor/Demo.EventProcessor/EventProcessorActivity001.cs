@@ -13,11 +13,11 @@ using Microsoft.Extensions.Logging;
 
 namespace Demo.EventProcessor
 {
-    public static class EventProcessorActivity
+    public static class EventProcessorActivity001
     {
         private static List<string> ignoreTags = new List<string>() { "Tag5", "Tag6" };
 
-        [FunctionName("EventProcessorActivity")]
+        [FunctionName("EventProcessorActivity001")]
         public static async Task Run([EventHubTrigger("ingest-001", Connection = "IngestEventHubConnectionString")] EventData[] events, [DurableClient] IDurableClient context, ILogger log, PartitionContext partitionContext, [Queue("retry-events"), StorageAccount("AzureStorageFailureQueueConnection")] ICollector<string> failureQueue)
         {
             log.LogMetric("EventProcessorActivityBatchSize", events.Count(), new Dictionary<string, object> { { "PartitionId", partitionContext.PartitionId } });

@@ -12,31 +12,11 @@ using System.Diagnostics;
 
 namespace Demo.EventEventSender
 {
-    public static class SendEventHubMessageEndpoint
+    public static class SendEventHubMessageScenarioEndpoint001
     {
-        [FunctionName("SendEventHubMessageEndpoint001")]
+        [FunctionName("SendEventHubMessageScenarioEndpoint001")]
         public static async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req,
-            [EventHub("ingest-001", Connection = "IngestEventHubConnectionString")] IAsyncCollector<string> outputEvents001, ILogger log)
-        {
-            log.LogInformation("C# HTTP trigger function processed a request.");
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            await outputEvents001.AddAsync(requestBody);
-            return new OkObjectResult("OK");
-        }
-
-        [FunctionName("SendEventHubMessageEndpoint002")]
-        public static async Task<IActionResult> Run002([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req,
-           [EventHub("ingest-002", Connection = "IngestEventHubConnectionString")] IAsyncCollector<string> outputEvents002, ILogger log)
-        {
-            log.LogInformation("C# HTTP trigger function processed a request.");
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            await outputEvents002.AddAsync(requestBody);
-            return new OkObjectResult("OK");
-        }
-
-        [FunctionName("SendEventHubMessageScenarioEndpoint")]
-        public static async Task<IActionResult> RunWithParamaters([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req,
-            [EventHub("ingest-002", Connection = "IngestEventHubConnectionString")] IAsyncCollector<TelemetryModel> outputEvents002, ILogger log)
+            [EventHub("ingest-001", Connection = "IngestEventHubConnectionString")] IAsyncCollector<TelemetryModel> outputEvents002, ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
 
