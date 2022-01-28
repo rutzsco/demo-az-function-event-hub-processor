@@ -10,12 +10,12 @@ namespace Demo.EventProcessor
 {
     internal class Diagnostics
     {
-        internal static void Log(EventData eventData, string messageBodyString, ILogger log, PartitionContext partitionContext)
+        internal static void Log(EventData eventData, string messageBodyString, ILogger log, PartitionContext partitionContext, string suffix)
         {
             var messageSequence = eventData.SystemProperties.SequenceNumber;
             var lastEnqueuedSequence = partitionContext.RuntimeInformation.LastSequenceNumber;
             var sequenceDifference = lastEnqueuedSequence - messageSequence;
-            log.LogMetric("EventProcessorActivityPartitionSequenceLag", sequenceDifference, new Dictionary<string, object> { { "PartitionId", partitionContext.PartitionId } });
+            log.LogMetric($"EventProcessorActivityPartitionSequenceLag{suffix}", sequenceDifference, new Dictionary<string, object> { { "PartitionId", partitionContext.PartitionId } });
 
             var sb = new StringBuilder();
             foreach (var properties in eventData.Properties)
@@ -35,8 +35,8 @@ namespace Demo.EventProcessor
                 sb.Append(properties.Value);
                 sb.Append('|');
             }
-            log.LogDebug($"EventHubIngestionProcessor MessagePayload:  {messageBodyString}");
-            log.LogDebug($"EventHubIngestionProcessor MessageProperties:  {sb}");
+            log.LogDebug($"EventHubIngestionProcessor{suffix} MessagePayload:  {messageBodyString}");
+            log.LogDebug($"EventHubIngestionProcessor{suffix} MessageProperties:  {sb}");
         }
     }
 }

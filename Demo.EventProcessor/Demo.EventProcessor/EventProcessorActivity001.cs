@@ -20,12 +20,12 @@ namespace Demo.EventProcessor
         [FunctionName("EventProcessorActivity001")]
         public static async Task Run([EventHubTrigger("ingest-001", Connection = "IngestEventHubConnectionString")] EventData[] events, [DurableClient] IDurableClient context, ILogger log, PartitionContext partitionContext)
         {
-            log.LogMetric("EventProcessorActivityBatchSize", events.Count(), new Dictionary<string, object> { { "PartitionId", partitionContext.PartitionId } });
+            log.LogMetric("EventProcessorActivityBatchSize001", events.Count(), new Dictionary<string, object> { { "PartitionId", partitionContext.PartitionId } });
             foreach (EventData eventData in events)
             {
                 var messageBody = Encoding.UTF8.GetString(eventData.Body.Array, eventData.Body.Offset, eventData.Body.Count);
                 var telemetryModel = JsonSerializer.Deserialize<TelemetryModel>(messageBody);
-                Diagnostics.Log(eventData, messageBody, log, partitionContext);
+                Diagnostics.Log(eventData, messageBody, log, partitionContext,"001");
 
                 Logic.Execute(telemetryModel);
             }
