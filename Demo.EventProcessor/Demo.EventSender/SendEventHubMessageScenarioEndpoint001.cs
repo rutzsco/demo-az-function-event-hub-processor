@@ -16,7 +16,7 @@ namespace Demo.EventEventSender
     public static class SendEventHubMessageScenarioEndpoint001
     {
         [FunctionName("SendEventHubMessageScenarioEndpoint001")]
-        public static async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req,
+        public static async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
             [EventHub("ingest-001", Connection = "IngestEventHubConnectionString")] IAsyncCollector<TelemetryModel> outputEvents002, ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
