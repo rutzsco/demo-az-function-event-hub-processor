@@ -1,6 +1,6 @@
 # demo-az-function-event-hub-processor
 
-V1
+V2
 
 # Refernce
 
