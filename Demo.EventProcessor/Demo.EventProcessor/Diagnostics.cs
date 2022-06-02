@@ -1,5 +1,6 @@
-﻿using Microsoft.Azure.EventHubs;
-using Microsoft.Azure.EventHubs.Processor;
+﻿
+using Azure.Messaging.EventHubs;
+using Azure.Messaging.EventHubs.Consumer;
 using Microsoft.Extensions.Logging;
 
 using System;
@@ -12,10 +13,10 @@ namespace Demo.EventProcessor
     {
         internal static void Log(EventData eventData, string messageBodyString, ILogger log, PartitionContext partitionContext, string suffix)
         {
-            var messageSequence = eventData.SystemProperties.SequenceNumber;
-            var lastEnqueuedSequence = partitionContext.RuntimeInformation.LastSequenceNumber;
-            var sequenceDifference = lastEnqueuedSequence - messageSequence;
-            log.LogMetric($"EventProcessorActivityPartitionSequenceLag{suffix}", sequenceDifference, new Dictionary<string, object> { { "PartitionId", partitionContext.PartitionId } });
+            //var messageSequence = eventData.SystemProperties.SequenceNumber;
+            //var lastEnqueuedSequence = partitionContext.RuntimeInformation.LastSequenceNumber;
+            //var sequenceDifference = lastEnqueuedSequence - messageSequence;
+            //log.LogMetric($"EventProcessorActivityPartitionSequenceLag{suffix}", sequenceDifference, new Dictionary<string, object> { { "PartitionId", partitionContext.PartitionId } });
 
             var sb = new StringBuilder();
             foreach (var properties in eventData.Properties)
@@ -27,7 +28,7 @@ namespace Demo.EventProcessor
             }
             sb.Append("SystemProperties|");
             sb.Append("PartitionKey=");
-            sb.Append(eventData.SystemProperties.PartitionKey);
+            //sb.Append(eventData.SystemProperties.);
             foreach (var properties in eventData.SystemProperties)
             {
                 sb.Append(properties.Key);

@@ -1,0 +1,22 @@
+@baseUrl = https://rutzsco-demo-event-sender.azurewebsites.net/api
+### Publish Queue Message
+
+POST {{baseUrl}}/SendEventHubMessageScenarioEndpoint001?code=cFI04QUWxt8qg12ZwCEDOaCuPDO5IReX4-pvhsTSCOs5AzFuJ030ZA==
+content-type: application/json
+
+{
+    "EventModel": {
+        "data":[
+        {
+          "name":"Tag1",
+          "value":"Value1 "
+          }  ],
+        "DelayMS": 10
+     },
+     "Scenario":
+     {
+         "DurationSeconds": 10, 
+         "RatePerSeconds": 1000
+     }
+ }
+

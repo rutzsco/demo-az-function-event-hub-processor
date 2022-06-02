@@ -5,10 +5,9 @@ using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Azure.EventHubs;
-using Microsoft.Azure.EventHubs.Processor;
+using Azure.Messaging.EventHubs;
+using Azure.Messaging.EventHubs.Consumer;
 using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.DurableTask;
 using Microsoft.Extensions.Logging;
 
 namespace Demo.EventProcessor
@@ -18,12 +17,12 @@ namespace Demo.EventProcessor
         private static List<string> ignoreTags = new List<string>() { "Tag5", "Tag6" };
 
         [FunctionName("EventProcessorActivity001")]
-        public static async Task Run([EventHubTrigger("ingest-001", Connection = "IngestEventHubConnectionString")] EventData[] events, [DurableClient] IDurableClient context, ILogger log, PartitionContext partitionContext)
+        public static async Task Run([EventHubTrigger("ingest-001", Connection = "IngestEventHubConnectionString")] EventData[] events, ILogger log, PartitionContext partitionContext)
         {
             log.LogMetric("EventProcessorActivityBatchSize001", events.Count(), new Dictionary<string, object> { { "PartitionId", partitionContext.PartitionId } });
             foreach (EventData eventData in events)
             {
-                var messageBody = Encoding.UTF8.GetString(eventData.Body.Array, eventData.Body.Offset, eventData.Body.Count);
+                var messageBody = Encoding.UTF8.GetString(eventData.EventBody);
                 var telemetryModel = JsonSerializer.Deserialize<TelemetryModel>(messageBody);
                 Diagnostics.Log(eventData, messageBody, log, partitionContext,"001");
 
