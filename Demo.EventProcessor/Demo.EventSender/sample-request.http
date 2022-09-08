@@ -1,9 +1,8 @@
-@baseUrl =https: //rutzsco-demo-api-management-ci-001.azure-api.net
+@baseUrl = 'https://rutzsco-demo-event-sender.azurewebsites.net'
 
 ### Event Sender 
-POST  {{baseUrl}}/demo/account
+POST  {{baseUrl}}/api/SendEventHubMessageScenarioEndpoint001
 content-type: application/json
-Authorization: Bearer {{aadTokenRequest.response.body.access_token}}
 
 {
   "EventModel": {
