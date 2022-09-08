@@ -1,0 +1,22 @@
+@baseUrl =https: //rutzsco-demo-api-management-ci-001.azure-api.net
+
+### Event Sender 
+POST  {{baseUrl}}/demo/account
+content-type: application/json
+Authorization: Bearer {{aadTokenRequest.response.body.access_token}}
+
+{
+  "EventModel": {
+    "data": [
+      {
+        "name": "Tag1",
+        "value": "Value1 "
+      }
+    ],
+    "DelayMS": 10
+  },
+  "Scenario": {
+    "DurationSeconds": 60,
+    "RatePerSeconds": 5000
+  }
+}

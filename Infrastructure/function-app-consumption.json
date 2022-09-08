@@ -55,7 +55,7 @@
     },
     "extensionVersion": {
       "type": "string",
-      "defaultValue": "~3"
+      "defaultValue": "~4"
     }
   },
   "variables": {
