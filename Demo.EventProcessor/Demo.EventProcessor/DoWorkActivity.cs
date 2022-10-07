@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -26,13 +27,18 @@ namespace Demo.EventProcessor
             var outputs = new List<string>();
             var command = context.GetInput<RunWorkSimulationCommand>();
 
+            Stopwatch durationSW = new Stopwatch();
+            durationSW.Start();
+
             var tasks = new Task<string>[command.Count];
             for (int i = 0; i < command.Count; i++)
             {
                 tasks[i] = context.CallActivityAsync<string>("DoWorkActivity", new DoWorkModel(i, command.Duration));
             }
             await Task.WhenAll(tasks);
- 
+
+            durationSW.Stop();
+            outputs.Add($"Processed {command.Count} events in {durationSW.ElapsedMilliseconds} milliseconds");
             return outputs;
         }
     }
