@@ -47,4 +47,17 @@ namespace Demo.EventProcessor
 
         public string Value { get; set; }
     }
+
+    public class DoWorkModel
+    {
+        public DoWorkModel(int id, int duration)
+        {
+            Id = id;
+            DurationSeconds = duration;
+        }
+
+        public int Id { get; set; }
+
+        public int DurationSeconds { get; set; }
+    }
 }
