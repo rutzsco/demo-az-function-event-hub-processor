@@ -9,5 +9,7 @@ namespace Demo.EventSender.Model
         public int DurationSeconds { get; set; }
 
         public int RatePerSeconds { get; set; }
+
+        public string TargetUrl { get; set; }
     }
 }

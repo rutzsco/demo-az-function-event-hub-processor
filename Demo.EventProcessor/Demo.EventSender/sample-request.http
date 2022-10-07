@@ -1,8 +1,9 @@
-@baseUrl = 'https://rutzsco-demo-event-sender.azurewebsites.net'
+@baseUrl = https://rutzsco-demo-event-sender.azurewebsites.net
 
 ### Event Sender 
 POST  {{baseUrl}}/api/SendEventHubMessageScenarioEndpoint001
 content-type: application/json
+x-functions-key: eqfdwYnyecKS7SqkAEyITG7HLYX7ZYIrOOcxGl4H6uzWAzFu4WhFAA==
 
 {
   "EventModel": {
