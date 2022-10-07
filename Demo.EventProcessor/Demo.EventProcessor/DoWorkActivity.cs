@@ -23,13 +23,12 @@ namespace Demo.EventProcessor
         public static async Task<List<string>> RunOrchestrator([OrchestrationTrigger] IDurableOrchestrationContext context)
         {
             var outputs = new List<string>();
-            var duration = context.GetInput<int>();
-            var count = context.GetInput<int>();
+            var command = context.GetInput<RunWorkSimulationCommand>();
 
-            var tasks = new Task<string>[count];
-            for (int i = 0; i < count; i++)
+            var tasks = new Task<string>[command.Count];
+            for (int i = 0; i < command.Count; i++)
             {
-                tasks[i] = context.CallActivityAsync<string>("DoWorkActivity", duration);
+                tasks[i] = context.CallActivityAsync<string>("DoWorkActivity", command.Duration);
             }
             await Task.WhenAll(tasks);
  

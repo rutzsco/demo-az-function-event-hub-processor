@@ -1,0 +1,11 @@
+@baseUrl = https://rutzsco-demo-event-processor.azurewebsites.net
+
+### Event Sender 
+POST  {{baseUrl}}/api/StartWorkEndpoint
+content-type: application/json
+x-functions-key: 2QI7Eali-0xVoytJ4E5LbIslUPKrtNow470hfOGf2LHrAzFubnUFOQ==
+
+{
+  "DurationSeconds": 60,
+  "Count": 5000
+}

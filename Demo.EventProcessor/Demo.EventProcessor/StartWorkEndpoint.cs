@@ -14,32 +14,16 @@ namespace Demo.EventProcessor
     public static class StartWorkEndpoint
     {
         [FunctionName("StartWorkEndpoint")]
-        public static async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
+        public static async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "POST", Route = null)] HttpRequest req,
                                                     [DurableClient] IDurableOrchestrationClient starter,
                                                     ILogger log)
         {
+            var requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+            var command = JsonConvert.DeserializeObject<RunWorkSimulationCommand>(requestBody);
 
-            var duration = ParseDuration(req);
-
-            string instanceId = await starter.StartNewAsync("Workflow", null, duration);
+            string instanceId = await starter.StartNewAsync("Workflow", null, command);
             log.LogInformation($"Started orchestration with ID = '{instanceId}'.");
             return starter.CreateCheckStatusResponse(req, instanceId);
-        }
-
-        private static int ParseDuration(HttpRequest req)
-        {
-            var duration = req.Query["duration"];
-            if (string.IsNullOrEmpty(duration))
-                return 300;
-            try
-            {
-                int result = Int32.Parse(duration);
-                return result;
-            }
-            catch (FormatException)
-            {
-                return 60;
-            }
         }
     }
 }
