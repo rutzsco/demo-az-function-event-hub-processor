@@ -16,6 +16,10 @@
         "prefetchCount": 300,
         "enableReceiverRuntimeMetric": true
       }
+    },
+    "durableTask": {
+      "maxConcurrentActivityFunctions": 100,
+      "maxConcurrentOrchestratorFunctions": 10
     }
   }
 }

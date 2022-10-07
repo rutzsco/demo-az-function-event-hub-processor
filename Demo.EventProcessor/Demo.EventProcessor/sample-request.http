@@ -6,6 +6,6 @@ content-type: application/json
 x-functions-key: 2QI7Eali-0xVoytJ4E5LbIslUPKrtNow470hfOGf2LHrAzFubnUFOQ==
 
 {
-  "DurationSeconds": 60,
-  "Count": 5000
+  "Duration": 10,
+  "Count": 100
 }
