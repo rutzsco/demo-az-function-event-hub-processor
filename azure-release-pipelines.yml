@@ -54,7 +54,7 @@ stages:
                 resourceGroupName: '$(resourceGroupName)'
                 location: '$(region)'
                 csmFile: '$(Pipeline.Workspace)/build/Infrastructure/function-app-consumption.json'
-                overrideParameters: '-appName $(functionAppName) -storageAccountName azfuncepci1'
+                overrideParameters: '-appName $(functionAppName) -storageAccountName azfuncepci01'
                 deploymentOutputs: ResourceGroupDeploymentOutputs
  
             - task: AzureFunctionApp@1
@@ -73,7 +73,7 @@ stages:
                 resourceGroupName: '$(resourceGroupName)'
                 location: '$(region)'
                 csmFile: '$(Pipeline.Workspace)/build/Infrastructure/function-app-consumption.json'
-                overrideParameters: '-appName rutzsco-demo-event-sender -storageAccountName azfunces1'
+                overrideParameters: '-appName rutzsco-demo-event-sender -storageAccountName azfunces01'
                 deploymentOutputs: ResourceGroupDeploymentOutputs
  
             - task: AzureFunctionApp@1
