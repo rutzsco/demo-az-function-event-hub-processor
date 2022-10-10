@@ -21,7 +21,7 @@
       "maxConcurrentActivityFunctions": 100,
       "maxConcurrentOrchestratorFunctions": 100,
       "storageProvider": {
-        "partitionCount": 8
+        "partitionCount": 16
       }
     }
   }
