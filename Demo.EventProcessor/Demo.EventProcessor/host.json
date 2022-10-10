@@ -20,9 +20,7 @@
     "durableTask": {
       "maxConcurrentActivityFunctions": 100,
       "maxConcurrentOrchestratorFunctions": 100,
-      "storageProvider": {
-        "partitionCount": 16
-      }
+      "extendedSessionsEnabled": true
     }
   }
 }
