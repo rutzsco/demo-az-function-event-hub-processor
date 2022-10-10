@@ -18,8 +18,8 @@
       }
     },
     "durableTask": {
-      "maxConcurrentActivityFunctions": 100,
-      "maxConcurrentOrchestratorFunctions": 100,
+      "maxConcurrentActivityFunctions": 1,
+      "maxConcurrentOrchestratorFunctions": 10,
       "extendedSessionsEnabled": true
     }
   }
