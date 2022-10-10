@@ -27,9 +27,6 @@ namespace Demo.EventProcessor
             var outputs = new List<string>();
             var command = context.GetInput<RunWorkSimulationCommand>();
 
-            Stopwatch durationSW = new Stopwatch();
-            durationSW.Start();
-
             var tasks = new Task<string>[command.Count];
             for (int i = 0; i < command.Count; i++)
             {
@@ -37,8 +34,7 @@ namespace Demo.EventProcessor
             }
             await Task.WhenAll(tasks);
 
-            durationSW.Stop();
-            outputs.Add($"Processed {command.Count} events in {durationSW.ElapsedMilliseconds} milliseconds");
+            outputs.Add($"Processed {command.Count} events");
             return outputs;
         }
     }
