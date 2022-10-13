@@ -1,11 +1,11 @@
 @baseUrl = https://rutzsco-demo-event-processor.azurewebsites.net
 
 ### Event Sender 
-POST  {{baseUrl}}/api/StartWorkEndpoint
+POST  https://rutzsco-demo-event-processor.azurewebsites.net/runtime/webhooks/durabletask/instances/03d0ee0c1d8845dcbdd1a617a5050c4f/terminate?reason={text}&taskHub=rutzscodemoeventprocessor&connection=Storage&code=FC2sWMfaifaaNpjAPj4kGOd-uqNcbfrS0YBIE4wkaL5BAzFuzhHckg==
 content-type: application/json
 x-functions-key: 2QI7Eali-0xVoytJ4E5LbIslUPKrtNow470hfOGf2LHrAzFubnUFOQ==
 
 {
-  "Duration": 10,
-  "Count": 100
+  "Duration": 60,
+  "Count": 5000
 }

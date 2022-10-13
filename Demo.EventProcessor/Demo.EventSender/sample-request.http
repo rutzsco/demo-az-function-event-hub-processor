@@ -20,3 +20,26 @@ x-functions-key: eqfdwYnyecKS7SqkAEyITG7HLYX7ZYIrOOcxGl4H6uzWAzFu4WhFAA==
     "RatePerSeconds": 5000
   }
 }
+
+
+### Event Sender SendHttpMessageScenarioEndpoint001
+POST  {{baseUrl}}/api/SendHttpMessageScenarioEndpoint001
+content-type: application/json
+x-functions-key: o9vWOqfg-kIHtExZSH8SOjSMCCi5mEu76H_CjTainPyoAzFubcsLDA==
+
+{
+  "EventModel": {
+    "data": [
+      {
+        "name": "Tag1",
+        "value": "Value1 "
+      }
+    ],
+    "DelayMS": 10
+  },
+  "Scenario": {
+    "DurationSeconds": 10,
+    "RatePerSeconds": 10,
+    "TargetUrl" : "http://20.84.18.210/api/simulate/50?duration=10"
+  }
+}

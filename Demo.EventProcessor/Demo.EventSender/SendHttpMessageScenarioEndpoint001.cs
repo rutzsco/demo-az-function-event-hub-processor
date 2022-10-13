@@ -42,8 +42,8 @@ namespace Demo.EventEventSender
                 for (int x = 0; x < command.Scenario.RatePerSeconds; x++)
                 {
                     messageCount++;
-                    var response = await _client.GetAsync(command.Scenario.TargetUrl);
-                    log.LogInformation($"Invoked http request with response code: {response.StatusCode}");
+                    var response = _client.GetAsync(command.Scenario.TargetUrl);
+                    //log.LogInformation($"Invoked http request with response code: {response.StatusCode}");
                 }
 
                 while (rateSW.Elapsed < TimeSpan.FromSeconds(1))
