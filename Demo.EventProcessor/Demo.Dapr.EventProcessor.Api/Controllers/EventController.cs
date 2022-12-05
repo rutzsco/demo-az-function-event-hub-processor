@@ -1,3 +1,4 @@
+using Demo.EventProcessor;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Demo.Dapr.EventProcessor.Api.Controllers
@@ -28,6 +29,13 @@ namespace Demo.Dapr.EventProcessor.Api.Controllers
                 Summary = Summaries[Random.Shared.Next(Summaries.Length)]
             })
             .ToArray();
+        }
+
+        [HttpPost("ProcessTelemetry")]
+        public async Task<ActionResult> ProcessTelemetry(TelemetryModel telemetryModel)
+        { 
+            Logic.Execute(telemetryModel);
+            return Ok();
         }
     }
 }
