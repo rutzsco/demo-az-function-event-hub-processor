@@ -1,7 +1,7 @@
 @baseUrl = https://rutzsco-demo-event-sender.azurewebsites.net/api
 ### Publish Queue Message
 
-POST {{baseUrl}}/SendEventHubMessageScenarioEndpoint002?code=cFI04QUWxt8qg12ZwCEDOaCuPDO5IReX4-pvhsTSCOs5AzFuJ030ZA==
+POST {{baseUrl}}/SendEventHubMessageScenarioEndpoint002?code=VotaTknYX4T8BuHm4STuVWAQ40Dona2RaCcZC8zN4bRYAzFul3ZtGQ==
 content-type: application/json
 
 {

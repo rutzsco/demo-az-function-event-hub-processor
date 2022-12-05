@@ -1,9 +1,31 @@
 @baseUrl = https://rutzsco-demo-event-sender.azurewebsites.net
 
 ### Event Sender 
-POST  {{baseUrl}}/api/SendEventHubMessageScenarioEndpoint001
+POST  {{baseUrl}}/api/SendEventHubMessageScenarioEndpoint002
 content-type: application/json
-x-functions-key: eqfdwYnyecKS7SqkAEyITG7HLYX7ZYIrOOcxGl4H6uzWAzFu4WhFAA==
+x-functions-key: C0TdJm3V-ZBM2PkD8F1NytP75f4B19qxjz4X2r5GlWyPAzFuapXVfA==
+
+{
+  "EventModel": {
+    "data": [
+      {
+        "name": "Tag1",
+        "value": "Value1 "
+      }
+    ],
+    "DelayMS": 10
+  },
+  "Scenario": {
+    "DurationSeconds": 180,
+    "RatePerSeconds": 5000
+  }
+}
+
+
+### Event Sender SendHttpMessageScenarioEndpoint001
+POST  {{baseUrl}}/api/SendHttpMessageScenarioEndpoint001
+content-type: application/json
+x-functions-key: C0TdJm3V-ZBM2PkD8F1NytP75f4B19qxjz4X2r5GlWyPAzFuapXVfA==
 
 {
   "EventModel": {
@@ -17,29 +39,7 @@ x-functions-key: eqfdwYnyecKS7SqkAEyITG7HLYX7ZYIrOOcxGl4H6uzWAzFu4WhFAA==
   },
   "Scenario": {
     "DurationSeconds": 60,
-    "RatePerSeconds": 5000
-  }
-}
-
-
-### Event Sender SendHttpMessageScenarioEndpoint001
-POST  {{baseUrl}}/api/SendHttpMessageScenarioEndpoint001
-content-type: application/json
-x-functions-key: o9vWOqfg-kIHtExZSH8SOjSMCCi5mEu76H_CjTainPyoAzFubcsLDA==
-
-{
-  "EventModel": {
-    "data": [
-      {
-        "name": "Tag1",
-        "value": "Value1 "
-      }
-    ],
-    "DelayMS": 10
-  },
-  "Scenario": {
-    "DurationSeconds": 10,
-    "RatePerSeconds": 10,
-    "TargetUrl" : "http://20.84.18.210/api/simulate/50?duration=10"
+    "RatePerSeconds": 5,
+    "TargetUrl" : "http://20.84.18.210/api/simulate/50?duration=5000"
   }
 }
