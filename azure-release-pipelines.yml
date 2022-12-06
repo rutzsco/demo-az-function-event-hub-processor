@@ -37,8 +37,8 @@ stages:
             - task: AzureCLI@2
               displayName: '7. Azure Sender functions app deploy'
               inputs:
-                azureSubscription: $(azureSubscription)
-                scriptType: bash
+                azureSubscription: '$(azureSubscription)'
+                scriptType: ps
                 scriptLocation: inlineScript
                 inlineScript: |
                   az group create --name $(resourceGroupName) --location $(region)  
