@@ -9,6 +9,12 @@ param acrUsername string
 param acrName string
 var stackname = '${appName}-${envName}'
 
+@secure()
+param eventhubconnectionstring string
+
+@secure()
+param storageAccountKey string
+
 module law 'log-analytics.bicep' = {
 	name: 'log-analytics-workspace'
 	params: {
@@ -25,6 +31,47 @@ module containerAppEnvironment 'aca-environment.bicep' = {
     
     lawClientId:law.outputs.clientId
     lawClientSecret: law.outputs.clientSecret
+  }
+}
+
+resource daprPubSub 'Microsoft.App/managedEnvironments/daprComponents@2022-03-01' = {
+  name: '${envName}/pubsub'
+  properties: {
+    componentType: 'bindings.azure.eventhubs'
+    version: 'v1'
+    secrets: [
+      {
+        name: 'eventhubconnectionstring'
+        value: eventhubconnectionstring
+      }
+      {
+        name: 'storageAccountKey'
+        value: storageAccountKey
+      }
+    ]
+    metadata: [
+      {
+        name: 'connectionString'
+        secretRef: 'eventhubconnectionstring'
+      }
+      {
+        name: 'consumerGroup'
+        value: 'cg001'
+      }
+      {
+        name: 'storageAccountName'
+        value: 'azeventhubcp'
+      }
+      {
+        name: 'storageAccountKey'
+        secretRef: 'storageAccountKey'
+      }
+      {
+        name: 'storageContainerName '
+        secretRef: 'checkpoint'
+      }
+    ]
+    scopes: [ 'trafficcontrolservice' ]
   }
 }
 
