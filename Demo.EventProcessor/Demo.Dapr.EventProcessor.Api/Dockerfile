@@ -4,7 +4,8 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["Demo.Dapr.EventProcessor.Api/Demo.Dapr.EventProcessor.Api.csproj", "Demo.Dapr.EventProcessor.Api/"]
+COPY ["/Demo.Dapr.EventProcessor.Api/Demo.Dapr.EventProcessor.Api.csproj", "Demo.Dapr.EventProcessor.Api/"]
+COPY ["/Demo.Shared/Demo.Shared.csproj", "Demo.Shared/"]
 RUN dotnet restore "Demo.Dapr.EventProcessor.Api/Demo.Dapr.EventProcessor.Api.csproj"
 COPY . .
 WORKDIR "/src/Demo.Dapr.EventProcessor.Api"
