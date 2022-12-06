@@ -6,7 +6,7 @@ resources:
     source: 'function-event-hub-processor - BUILD'
   
 variables:
-  vmImageName: 'windows-latest'
+  vmImageName: 'ubuntu-latest'
   azureSubscription: 'Demo Account'
   region: 'eastus'
   resourceGroupName: 'rutzsco-demo-event-processor'
