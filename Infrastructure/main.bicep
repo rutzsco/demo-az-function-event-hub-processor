@@ -34,36 +34,7 @@ module containerAppEnvironment 'aca-environment.bicep' = {
   }
 }
 
-resource daprPubSub 'Microsoft.App/managedEnvironments/daprComponents@2022-03-01' = {
-  name: '${envName}/pubsub'
-  properties: {
-    componentType: 'bindings.azure.eventhubs'
-    version: 'v1'
-    metadata: [
-      {
-        name: 'connectionString'
-        secretRef: 'eventhubconnectionstring'
-      }
-      {
-        name: 'consumerGroup'
-        value: 'cg001'
-      }
-      {
-        name: 'storageAccountName'
-        value: 'azeventprocessorcp'
-      }
-      {
-        name: 'storageAccountKey'
-        secretRef: 'storageAccountKey'
-      }
-      {
-        name: 'storageContainerName '
-        secretRef: 'checkpoint'
-      }
-    ]
-    scopes: [ stackname ]
-  }
-}
+
 
 module containerApp 'aca.bicep' = {
   name: 'container-app'
