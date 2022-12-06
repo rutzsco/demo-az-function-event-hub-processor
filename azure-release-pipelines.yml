@@ -11,6 +11,13 @@ variables:
   region: 'East US'
   resourceGroupName: 'rutzsco-demo-event-processor'
   functionAppName: 'rutzsco-demo-event-processor'  
+  appName: 'rutzsco-demo-eventp-aca'
+  environment: 'ci'
+  containerImage: 'rutzscolabcr.azurecr.io/event-processing/demo-api:$(resources.pipeline.build.runName)'
+  templateFile: '$(Pipeline.Workspace)/build/Infrastructure/ACA/main.bicep'
+  acrName: 'rutzscolabcr'
+  acrUsername: 'rutzscolabcr'
+
 stages:
  - stage: CI
    displayName: CI stage 
@@ -84,3 +91,13 @@ stages:
                 appName: rutzsco-demo-event-sender
                 package: '$(Pipeline.Workspace)/build/App/Demo.EventSender.zip'
                 AppSettings: '-IngestEventHubConnectionString $(RGDO_NamespaceDefaultConnectionString)'
+
+            - task: AzureCLI@2
+              displayName: '7. Azure Sender functions app deploy'
+              inputs:
+                azureSubscription: $(azureServiceConnection)
+                scriptType: bash
+                scriptLocation: inlineScript
+                inlineScript: |
+                  az group create --name $(resourceGroupName) --location $(region)  
+                  az deployment group create --resource-group $(resourceGroupName) --template-file $(templateFile) --parameters appName=$(appName) envName=$(environment) containerImage=$(containerImage) acrName=$(acrName) acrUsername=$(acrUsername) acrPassword=$(acrPassword) > outputs.json
