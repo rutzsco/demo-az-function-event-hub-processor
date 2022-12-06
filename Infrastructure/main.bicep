@@ -35,7 +35,7 @@ module containerAppEnvironment 'aca-environment.bicep' = {
 }
 
 resource daprPubSub 'Microsoft.App/managedEnvironments/daprComponents@2022-03-01' = {
-  name: '${stackname}/ProcessTelemetry'
+  name: '${stackname}/processtelemetry'
   properties: {
     componentType: 'bindings.azure.eventhubs'
     version: 'v1'
