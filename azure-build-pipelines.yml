@@ -6,8 +6,22 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
+  rootDirectory: 'Demo.EventProcessor/Demo.Dapr.EventProcessor.Api'
+  dockerRegistryServiceConnection: '35174a8f-edaa-4891-891d-f017c5338f2c'
+  dockerImageRepository: 'event-processing/demo-api'
+  dockerImageTag: '$(Build.BuildNumber)'
 
 steps:
+- task: Docker@2
+  displayName: 'Container - Build and push'
+  inputs:
+    containerRegistry: '$(dockerRegistryServiceConnection)'
+    repository: '$(dockerImageRepository)'
+    command: 'buildAndPush'
+    buildContext: '$(Build.SourcesDirectory)/Demo.EventProcessor/Demo.Dapr.EventProcessor.Api'
+    tags: |
+      $(dockerImageTag)
+      latest
 - task: DotNetCoreCLI@2
   displayName: 'Build project'
   inputs:
