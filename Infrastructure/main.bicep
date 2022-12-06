@@ -13,7 +13,7 @@ var stackname = '${appName}-${envName}'
 param eventhubconnectionstring string
 
 @secure()
-param storageAccountKey string
+param storageaccountkey string
 
 module law 'log-analytics.bicep' = {
 	name: 'log-analytics-workspace'
@@ -54,11 +54,21 @@ resource daprPubSub 'Microsoft.App/managedEnvironments/daprComponents@2022-03-01
       }
       {
         name: 'storageAccountKey'
-        secretRef: 'storageAccountKey'
+        secretRef: 'storageaccountkey'
       }
       {
         name: 'storageContainerName '
         value: 'checkpoint'
+      }
+    ]
+    secrets: [
+      {
+        name: 'eventhubconnectionstring'
+        value: eventhubconnectionstring
+      }
+      {
+        name: 'storageaccountkey'
+        value: storageaccountkey
       }
     ]
     scopes: [ stackname ]
@@ -79,7 +89,7 @@ module containerApp 'aca.bicep' = {
     acrUsername: acrUsername
     acrName: acrName
     eventhubconnectionstring: eventhubconnectionstring
-    storageAccountKey: storageAccountKey
+    storageAccountKey: storageaccountkey
   }
 }
 
