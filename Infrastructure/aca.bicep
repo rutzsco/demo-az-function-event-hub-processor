@@ -40,7 +40,7 @@ resource containerApp 'Microsoft.App/containerApps@2022-03-01' = {
           value: eventhubconnectionstring
         }
         {
-          name: 'storageAccountKey'
+          name: 'storageaccountkey'
           value: storageAccountKey
         }
       ]
