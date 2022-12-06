@@ -14,7 +14,7 @@ variables:
   appName: 'rutzsco-demo-eventp-aca'
   environment: 'ci'
   containerImage: 'rutzscolabcr.azurecr.io/event-processing/demo-api:$(resources.pipeline.build.runName)'
-  templateFile: '$(Pipeline.Workspace)\build\Infrastructure\ACA\main.bicep'
+  templateFile: '$(Pipeline.Workspace)\build\Infrastructure\main.bicep'
   acrName: 'rutzscolabcr'
   acrUsername: 'rutzscolabcr'
 
