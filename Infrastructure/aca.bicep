@@ -16,6 +16,12 @@ param acrUsername string
 @secure()
 param acrPassword string
 
+@secure()
+param eventhubconnectionstring string
+
+@secure()
+param storageAccountKey string
+
 var containerImageParts = split(containerImage, ':')
 
 resource containerApp 'Microsoft.App/containerApps@2022-03-01' = {
@@ -23,20 +29,28 @@ resource containerApp 'Microsoft.App/containerApps@2022-03-01' = {
   location: location
   properties: {
     managedEnvironmentId: containerAppEnvironmentId
-    configuration: {  
+    configuration: {
       secrets: [
         {
-            name: 'acrpassword'
-            value: acrPassword
+          name: 'acrpassword'
+          value: acrPassword
         }
-    ]
-    registries: [
         {
-            server: '${acrName}.azurecr.io'
-            username: acrUsername
-            passwordSecretRef: 'acrpassword'
+          name: 'eventhubconnectionstring'
+          value: eventhubconnectionstring
         }
-    ]
+        {
+          name: 'storageAccountKey'
+          value: storageAccountKey
+        }
+      ]
+      registries: [
+        {
+          server: '${acrName}.azurecr.io'
+          username: acrUsername
+          passwordSecretRef: 'acrpassword'
+        }
+      ]
       ingress: {
         external: useExternalIngress
         targetPort: containerPort
@@ -49,25 +63,25 @@ resource containerApp 'Microsoft.App/containerApps@2022-03-01' = {
           name: name
           env: [
             {
-                name: 'APPLICATION_VERSION'
-                value: containerImageParts[1]
+              name: 'APPLICATION_VERSION'
+              value: containerImageParts[1]
             }
-        ]
+          ]
         }
       ]
       scale: {
         minReplicas: 1
         maxReplicas: 10
-        rules: [{
-          name: 'cpu-scaling-rule'
-          custom: {
-            type: 'cpu'
-            metadata: {
-              type: 'Utilization'
-              value: '75'
+        rules: [ {
+            name: 'cpu-scaling-rule'
+            custom: {
+              type: 'cpu'
+              metadata: {
+                type: 'Utilization'
+                value: '75'
+              }
             }
-          }
-        }]
+          } ]
       }
     }
   }

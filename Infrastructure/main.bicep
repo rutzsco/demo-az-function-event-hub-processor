@@ -39,16 +39,6 @@ resource daprPubSub 'Microsoft.App/managedEnvironments/daprComponents@2022-03-01
   properties: {
     componentType: 'bindings.azure.eventhubs'
     version: 'v1'
-    secrets: [
-      {
-        name: 'eventhubconnectionstring'
-        value: eventhubconnectionstring
-      }
-      {
-        name: 'storageAccountKey'
-        value: storageAccountKey
-      }
-    ]
     metadata: [
       {
         name: 'connectionString'
@@ -88,6 +78,8 @@ module containerApp 'aca.bicep' = {
     acrPassword: acrPassword
     acrUsername: acrUsername
     acrName: acrName
+    eventhubconnectionstring: eventhubconnectionstring
+    storageAccountKey: storageAccountKey
   }
 }
 
