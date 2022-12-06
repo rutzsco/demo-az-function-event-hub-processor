@@ -61,7 +61,7 @@ resource daprPubSub 'Microsoft.App/managedEnvironments/daprComponents@2022-03-01
         secretRef: 'checkpoint'
       }
     ]
-    scopes: [ 'trafficcontrolservice' ]
+    scopes: [ stackname ]
   }
 }
 
