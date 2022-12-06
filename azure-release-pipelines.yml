@@ -95,7 +95,7 @@ stages:
             - task: AzureCLI@2
               displayName: '7. Azure Sender functions app deploy'
               inputs:
-                azureSubscription: $(azureServiceConnection)
+                azureSubscription: $(azureSubscription)
                 scriptType: bash
                 scriptLocation: inlineScript
                 inlineScript: |
