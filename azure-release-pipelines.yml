@@ -6,7 +6,7 @@ resources:
     source: 'function-event-hub-processor - BUILD'
   
 variables:
-  vmImageName: 'ubuntu-latest'
+  vmImageName: 'windows-latest'
   azureSubscription: 'Demo Account'
   region: 'eastus'
   resourceGroupName: 'rutzsco-demo-event-processor'
@@ -34,7 +34,16 @@ stages:
           deploy:
   
             steps:
-                       
+            - task: AzureCLI@2
+              displayName: '7. Azure Sender functions app deploy'
+              inputs:
+                azureSubscription: $(azureSubscription)
+                scriptType: bash
+                scriptLocation: inlineScript
+                inlineScript: |
+                  az group create --name $(resourceGroupName) --location $(region)  
+                  az deployment group create --resource-group $(resourceGroupName) --template-file $(templateFile) --parameters appName=$(appName) envName=$(environment) containerImage=$(containerImage) acrName=$(acrName) acrUsername=$(acrUsername) acrPassword=$(acrPassword) > outputs.json
+
             - task: AzureResourceManagerTemplateDeployment@3
               displayName: 'Ingest Event Hub - Deploy'
               inputs:
@@ -91,13 +100,3 @@ stages:
                 appName: rutzsco-demo-event-sender
                 package: '$(Pipeline.Workspace)/build/App/Demo.EventSender.zip'
                 AppSettings: '-IngestEventHubConnectionString $(RGDO_NamespaceDefaultConnectionString)'
-
-            - task: AzureCLI@2
-              displayName: '7. Azure Sender functions app deploy'
-              inputs:
-                azureSubscription: $(azureSubscription)
-                scriptType: bash
-                scriptLocation: inlineScript
-                inlineScript: |
-                  az group create --name $(resourceGroupName) --location $(region)  
-                  az deployment group create --resource-group $(resourceGroupName) --template-file $(templateFile) --parameters appName=$(appName) envName=$(environment) containerImage=$(containerImage) acrName=$(acrName) acrUsername=$(acrUsername) acrPassword=$(acrPassword) > outputs.json
