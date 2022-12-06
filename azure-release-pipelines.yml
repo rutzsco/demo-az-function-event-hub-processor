@@ -42,7 +42,7 @@ stages:
                 scriptLocation: inlineScript
                 inlineScript: |
                   az group create --name $(resourceGroupName) --location $(region)  
-                  az deployment group create --resource-group $(resourceGroupName) --template-file D:\a\1\build\Infrastructure\main.bicep --parameters appName=$(appName) envName=$(environment) containerImage=$(containerImage) acrName=$(acrName) acrUsername=$(acrUsername) acrPassword=$(acrPassword) eventhubconnectionstring=$(eventhubconnectionstring) $(storageAccountKey) > outputs.json
+                  az deployment group create --resource-group $(resourceGroupName) --template-file $(templateFile) --parameters appName=$(appName) envName=$(environment) containerImage=$(containerImage) acrName=$(acrName) acrUsername=$(acrUsername) acrPassword=$(acrPassword) eventhubconnectionstring=$(eventhubconnectionstring) storageAccountKey=$(storageAccountKey) > outputs.json
 
             - task: AzureResourceManagerTemplateDeployment@3
               displayName: 'Ingest Event Hub - Deploy'
