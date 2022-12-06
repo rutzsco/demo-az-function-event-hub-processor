@@ -18,7 +18,8 @@ steps:
     containerRegistry: '$(dockerRegistryServiceConnection)'
     repository: '$(dockerImageRepository)'
     command: 'buildAndPush'
-    buildContext: '$(Build.SourcesDirectory)/Demo.EventProcessor/Demo.Dapr.EventProcessor.Api'
+    Dockerfile: '$(Build.SourcesDirectory)/Demo.EventProcessor/Demo.Dapr.EventProcessor.Api/Dockerfile'
+    buildContext: '$(Build.SourcesDirectory)/Demo.EventProcessor/'
     tags: |
       $(dockerImageTag)
       latest
