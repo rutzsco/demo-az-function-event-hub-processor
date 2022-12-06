@@ -8,7 +8,7 @@ resources:
 variables:
   vmImageName: 'windows-latest'
   azureSubscription: 'Demo Account'
-  region: 'East US'
+  region: 'eastus'
   resourceGroupName: 'rutzsco-demo-event-processor'
   functionAppName: 'rutzsco-demo-event-processor'  
   appName: 'rutzsco-demo-eventp-aca'
