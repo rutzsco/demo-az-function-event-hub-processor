@@ -16,11 +16,6 @@ param acrUsername string
 @secure()
 param acrPassword string
 
-@secure()
-param eventhubconnectionstring string
-
-@secure()
-param storageAccountKey string
 
 var containerImageParts = split(containerImage, ':')
 
@@ -34,14 +29,6 @@ resource containerApp 'Microsoft.App/containerApps@2022-03-01' = {
         {
           name: 'acrpassword'
           value: acrPassword
-        }
-        {
-          name: 'eventhubconnectionstring'
-          value: eventhubconnectionstring
-        }
-        {
-          name: 'storageaccountkey'
-          value: storageAccountKey
         }
       ]
       registries: [

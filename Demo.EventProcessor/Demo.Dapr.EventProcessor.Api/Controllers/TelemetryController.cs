@@ -23,6 +23,7 @@ namespace Demo.Dapr.EventProcessor.Api.Controllers
         [HttpPost("ProcessTelemetry")]
         public async Task<ActionResult> ProcessTelemetry(TelemetryModel telemetryModel)
         {
+            _logger.LogInformation("Processing reqest - processtelemetry");
             Logic.Execute(telemetryModel);
             return Ok();
         }

@@ -59,7 +59,7 @@ resource daprPubSub 'Microsoft.App/managedEnvironments/daprComponents@2022-03-01
         secretRef: 'storageaccountkey'
       }
       {
-        name: 'storageContainerName '
+        name: 'storageContainerName'
         value: 'checkpoint'
       }
     ]
@@ -90,8 +90,6 @@ module containerApp 'aca.bicep' = {
     acrPassword: acrPassword
     acrUsername: acrUsername
     acrName: acrName
-    eventhubconnectionstring: eventhubconnectionstring
-    storageAccountKey: storageaccountkey
   }
 }
 

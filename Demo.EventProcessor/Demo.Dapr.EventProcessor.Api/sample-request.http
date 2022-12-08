@@ -1,5 +1,5 @@
-#@baseUrl = https://rutzsco-demo-eventp-aca-ci.ambitiousforest-35a763b4.eastus.azurecontainerapps.io
-@baseUrl = http://localhost:49153
+@baseUrl = https://rutzsco-demo-eventp-aca-ci.ambitiousforest-35a763b4.eastus.azurecontainerapps.io
+#@baseUrl = http://localhost:49153
 ### Status 
 GET  {{baseUrl}}/status
 
